@@ -1,0 +1,4 @@
+{
+  "mongoURI": "mongodb+srv://avc:atharv@cluster0-miap6.mongodb.net/miniProject?retryWrites=true&w=majority",
+  "jwtSecret": "loveyou3000"
+}
