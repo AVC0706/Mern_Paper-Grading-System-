@@ -8,7 +8,7 @@ import { Button, Spinner } from "reactstrap";
 const ModelAnswer = () => {
   const [files, setFile] = useState({});
 
-  const [filename, setFilename] = useState("Choose Multiple PDF (only) ");
+  const [filename, setFilename] = useState("Choose Model Answer  ");
   const [uploadedFile, setUploadedFile] = useState({});
   const [recentFile, setRecent] = useState([]);
 
@@ -18,19 +18,19 @@ const ModelAnswer = () => {
 
   const [uploadPercentage, setUploadPercentage] = useState(0);
 
-  const onChange = e => {
+  const onChange = (e) => {
     console.log(e.target.files);
 
     setFile(e.target.files);
     setFilename(e.target.files[0].name);
   };
 
-  const onSubjectChange = e => {
+  const onSubjectChange = (e) => {
     setSubject(e.target.value);
     console.log(subject);
   };
 
-  const addFiles = e => {
+  const addFiles = (e) => {
     e.preventDefault();
     setLoading(true);
     setSubject(e.target.value);
@@ -40,14 +40,14 @@ const ModelAnswer = () => {
       const uploadTask = storage.ref(`${files[i].name}`).put(files[i]);
       uploadTask.on(
         "state_changed",
-        snapshot => {
+        (snapshot) => {
           // progress function ...
           const progress = Math.round(
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100
           );
           // this.setUploadPercentage(progress);
         },
-        error => {
+        (error) => {
           // Error function ...
           console.log(error);
         },
@@ -57,10 +57,10 @@ const ModelAnswer = () => {
             .ref()
             .child(files[i].name)
             .getDownloadURL()
-            .then(url => {
-              setRecent(recentFile => [
+            .then((url) => {
+              setRecent((recentFile) => [
                 ...recentFile,
-                { url, filename: files[i].name }
+                { url, filename: files[i].name },
               ]);
             });
         }
@@ -71,7 +71,7 @@ const ModelAnswer = () => {
     }, 2000);
   };
 
-  const onSubmit = async e => {
+  const onSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setSubject(e.target.value);
@@ -87,9 +87,9 @@ const ModelAnswer = () => {
         if (recentFile) {
           const res = await axios.post("/api/paper/uploadModel", formData, {
             headers: {
-              "Content-Type": "multipart/form-data"
+              "Content-Type": "multipart/form-data",
             },
-            onUploadProgress: progressEvent => {
+            onUploadProgress: (progressEvent) => {
               setUploadPercentage(
                 parseInt(
                   Math.round((progressEvent.loaded * 100) / progressEvent.total)
@@ -98,7 +98,7 @@ const ModelAnswer = () => {
 
               // Clear percentage
               setTimeout(() => setUploadPercentage(0), 10000);
-            }
+            },
           });
 
           const { fileName, filePath } = res.data;
@@ -116,13 +116,13 @@ const ModelAnswer = () => {
       }
     }
     setTimeout(() => {
-      setRecent(recentFile => []);
+      setRecent((recentFile) => []);
 
       setLoading(false);
     }, 5000);
   };
 
-  const onCheck = e => {
+  const onCheck = (e) => {
     e.preventDefault();
 
     console.log(recentFile);

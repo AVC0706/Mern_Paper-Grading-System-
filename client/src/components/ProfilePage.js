@@ -9,22 +9,24 @@ import {
   CardText,
   CardFooter,
   Button,
-  Spinner
+  Spinner,
 } from "reactstrap";
 import src1 from "../assets/img-1.jpg";
 import AuthContext from "../context/auth/authContext";
 
 const ProfilePage = () => {
   const authContext = useContext(AuthContext);
-  const { student, user, isAuth } = authContext;
+  const { user, isAuth } = authContext;
+  const [student, setstudent] = useState({});
 
   useEffect(() => {
     if (isAuth) {
       console.log(user);
-      const formData = new FormData();
-      formData.append("id", user.id);
-      authContext.getStudent(formData);
-      console.log(authContext.user);
+      setstudent(user);
+      // const formData = new FormData();
+      // formData.append("id", user.id);
+      // authContext.getStudent(formData);
+      console.log(student);
     }
   }, [isAuth]);
 
@@ -89,7 +91,7 @@ const ProfilePage = () => {
                         VIEW
                       </a>
                     ) : (
-                      <h3>NOT UPLOADED</h3>
+                      <span> NOT UPLOADED</span>
                     )}
                   </Button>{" "}
                 </span>

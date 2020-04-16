@@ -11,15 +11,13 @@ const isAuthenticated = async (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, config.get("jwtSecret"));
-    console.log(decoded);
     const user = await User.findById(decoded.user.id);
-    console.log(user);
     if (!user) {
       res.status(401).json({ msg: "Sorry User Error" });
     }
 
     req.token = token;
-    req.user = { id: user.id, name: user.name, email: user.email };
+    req.user = user;
 
     next();
 

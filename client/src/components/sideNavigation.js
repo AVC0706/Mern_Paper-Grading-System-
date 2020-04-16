@@ -11,8 +11,10 @@ const TopNavigation = () => {
     if (localStorage.getItem("token")) {
       loadUser();
     }
+    console.log(isAdmin);
+    console.log(user);
     // eslint-disable-next-line
-  }, []);
+  }, [isAdmin]);
 
   const onLogout = () => {
     logout();
@@ -23,7 +25,7 @@ const TopNavigation = () => {
     <Fragment>
       <div className='sidebar-fixed position-fixed'>
         <ListGroup className='list-group-flush mt-5'>
-          <NavLink exact={true} to='/' activeClassName='activeClass'>
+          <NavLink exact={true} to='/dashboard' activeClassName='activeClass'>
             <ListGroupItem>Dashboard</ListGroupItem>
           </NavLink>
           <NavLink exact={true} to='/allStudents' activeClassName='activeClass'>
@@ -76,9 +78,18 @@ const TopNavigation = () => {
         <Fragment>
           <div className='sidebar-fixed position-fixed'>
             <ListGroup className='list-group-flush mt-5'>
-              <NavLink exact={true} to='/' activeClassName='activeClass'>
+              <NavLink
+                exact={true}
+                to='/dashboard'
+                activeClassName='activeClass'
+              >
                 <ListGroupItem>Dashboard</ListGroupItem>
               </NavLink>
+
+              <NavLink to='/allStudents' activeClassName='activeClass'>
+                <ListGroupItem>View Students</ListGroupItem>
+              </NavLink>
+
               <NavLink
                 to='/login'
                 activeClassName='activeClass'

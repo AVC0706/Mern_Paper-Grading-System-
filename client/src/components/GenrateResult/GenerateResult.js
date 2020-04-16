@@ -7,7 +7,7 @@ import {
   CardTitle,
   CardText,
   Button,
-  Spinner
+  Spinner,
 } from "reactstrap";
 import Message from "./Message";
 import axios from "axios";
@@ -26,7 +26,7 @@ const GenerateResult = () => {
     console.log(authContext.students);
   }, []);
 
-  const resultGenerate = async e => {
+  const resultGenerate = async (e) => {
     e.preventDefault();
     setLoading(true);
 
@@ -68,7 +68,7 @@ const GenerateResult = () => {
                   <Card className='d-flex mb-5 p-5'>
                     <CardBody>
                       <CardTitle className='font-bold mb-3'>
-                        <strong>Title</strong>
+                        <strong>Click the button to Generate Result</strong>
                       </CardTitle>
                       <CardText></CardText>
                       <br />
@@ -95,12 +95,14 @@ const GenerateResult = () => {
               <th>Roll NO.</th>
               <th>Name</th>
               <th>Subject 1</th>
+              <th>Paper 1 </th>
               <th>Subject 2</th>
+              <th>Paper 2</th>
             </tr>
           </thead>
           <tbody>
             {authContext.students !== null ? (
-              authContext.students.map(student => (
+              authContext.students.map((student) => (
                 <Students key={student.id} student={student} />
               ))
             ) : (

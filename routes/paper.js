@@ -3,15 +3,21 @@ const router = express.Router();
 const User = require("../models/User");
 const Paper = require("../models/Paper");
 const PaperModel = require("../models/PaperModel");
-
 const isAuthenticated = require("../middleware/isAuth");
 const isAdmin = require("../middleware/auth");
+
+const config = require("config");
+const jwt = require("jsonwebtoken");
+const axios = require("axios");
+const fileUpload = require("express-fileupload");
+const fs = require("fs");
+const fastcsv = require("fast-csv");
 
 //get all students
 
 router.get("/allStudents", [isAdmin], async (req, res) => {
   try {
-    const students = await User.find({});
+    const students = await User.find({ admin: false });
 
     res.json({
       students,
@@ -25,6 +31,7 @@ router.get("/allStudents", [isAdmin], async (req, res) => {
 
 router.post("/Student", [isAuthenticated], async (req, res) => {
   try {
+    console.log("this is student data");
     const student = await User.findById(req.body.id);
 
     res.json({
@@ -66,21 +73,19 @@ router.post("/uploadModel", [isAdmin], async (req, res) => {
 router.post("/uploadPdf", [isAdmin], async (req, res) => {
   console.log("here");
   const { filename, downloadUrl, subject } = req.body;
-
+  console.log(req.body);
   const rollNo = filename.split(".")[0];
 
   try {
     const user1 = await User.findOne({ rollNo });
-    console.log(user1);
     const paper = await Paper.findOne({ rollNo, subject });
     console.log(paper, user1._id);
     if (!paper) {
-      paper1 = new Paper({
-        user: user1._id,
+      const paper1 = new Paper({
+        subject,
         rollNo,
         downloadUrl,
         filename,
-        subject,
       });
       console.log(paper1);
       await paper1.save();
@@ -97,7 +102,8 @@ router.post("/uploadPdf", [isAdmin], async (req, res) => {
   });
 });
 
-router.post("/upload", [isAdmin], (req, res) => {
+//Upload Csv
+router.post("/upload" /*, [isAdmin]*/, (req, res) => {
   console.log("working");
 
   if (req.files === null) {
@@ -165,10 +171,13 @@ router.post("/upload", [isAdmin], (req, res) => {
 router.get("/flaskModel", [isAdmin], async function (req, res) {
   try {
     const paper = await Paper.find({ isChecked: false });
-    const paperModel = await PaperModel.findOne({ subject: paper[0].subject });
     console.log(paper[0].subject);
     const length = paper.length;
     for (let i = 0; i < length; i++) {
+      const paperModel = await PaperModel.findOne({
+        subject: paper[i].subject,
+      });
+      console.log(paperModel);
       const formData = {
         modelPaper: paperModel.downloadUrl,
         paperPdf: paper[i].downloadUrl,
@@ -181,6 +190,8 @@ router.get("/flaskModel", [isAdmin], async function (req, res) {
         .then(async (result) => {
           console.log(result.data, paper[i].rollNo);
           const user = await User.findOne({ rollNo: paper[i].rollNo });
+          paper[i].isChecked = true;
+          await paper[i].save();
           if (paper[i].subject === "1") {
             user.subject1 = result.data[1];
             user.total1 = result.data[0];
@@ -208,7 +219,6 @@ router.get("/flaskModel", [isAdmin], async function (req, res) {
   } catch (e) {
     res.status(500).json("Server Error");
   }
-
   return res.json({
     msg: "Paper-Grading Completed , Please Check Student Status .",
   });

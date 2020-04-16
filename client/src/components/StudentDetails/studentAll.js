@@ -17,12 +17,14 @@ const studentAll = () => {
           <th>Roll NO.</th>
           <th>Name</th>
           <th>Subject 1</th>
+          <th>Paper 1 </th>
           <th>Subject 2</th>
+          <th>Paper 2</th>
         </tr>
       </thead>
       <tbody>
         {authContext.students !== null ? (
-          authContext.students.map(student => (
+          authContext.students.map((student) => (
             <Student key={student.id} student={student} />
           ))
         ) : (

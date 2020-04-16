@@ -9,7 +9,7 @@ import {
   CardText,
   CardFooter,
   button,
-  Button
+  Button,
 } from "reactstrap";
 import { Link } from "react-router-dom";
 
@@ -24,7 +24,7 @@ const DashboardPage = () => {
                 <Card className='d-flex mb-5 p-5'>
                   <CardBody>
                     <CardTitle className='font-bold mb-3'>
-                      <strong>Title</strong>
+                      <strong>Upload Student Data</strong>
                     </CardTitle>
                     <CardText></CardText>
                     <br />
@@ -41,7 +41,7 @@ const DashboardPage = () => {
                 <Card className='d-flex mb-5 p-5'>
                   <CardBody>
                     <CardTitle className='font-bold mb-3'>
-                      <strong>Title</strong>
+                      <strong>Upload Model Answer Paper </strong>
                     </CardTitle>
                     <CardText></CardText>
                     <br />
@@ -60,7 +60,7 @@ const DashboardPage = () => {
                 <Card className='d-flex mb-5 p-5'>
                   <CardBody>
                     <CardTitle className='font-bold mb-3'>
-                      <strong>Title</strong>
+                      <strong>Upload Student Answer Papers</strong>
                     </CardTitle>
                     <CardText></CardText>
                     <br />
@@ -77,7 +77,7 @@ const DashboardPage = () => {
                 <Card className='d-flex mb-5 p-5'>
                   <CardBody>
                     <CardTitle className='font-bold mb-3'>
-                      <strong>Title</strong>
+                      <strong>Grade Student Papers</strong>
                     </CardTitle>
                     <CardText></CardText>
                     <br />

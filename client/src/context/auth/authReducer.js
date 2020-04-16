@@ -10,7 +10,7 @@ import {
   CONTACT_ERROR,
   GET_STUDENT,
   GET_ALLSTUDENTS,
-  STUDENT_ERROR
+  STUDENT_ERROR,
 } from "../types";
 
 export default (state, action) => {
@@ -21,7 +21,7 @@ export default (state, action) => {
         isAuth: true,
         loading: false,
         isAdmin: action.payload.user.admin,
-        user: action.payload.user
+        user: action.payload.user,
       };
 
     case LOGIN_SUCCESS:
@@ -31,7 +31,7 @@ export default (state, action) => {
         ...action.payload,
         loading: false,
         isAuth: true,
-        isAdmin: action.payload.user.admin
+        isAdmin: action.payload.user.admin,
       };
 
     case LOGIN_FAIL:
@@ -43,7 +43,7 @@ export default (state, action) => {
         user: null,
         isAuth: false,
         isAdmin: false,
-        error: action.payload
+        error: action.payload,
       };
 
     case LOGOUT:
@@ -55,7 +55,7 @@ export default (state, action) => {
         isAdmin: false,
         loading: false,
         user: null,
-        error: action.payload
+        error: action.payload,
       };
 
     case REGISTER_SUCCESS:
@@ -63,7 +63,7 @@ export default (state, action) => {
         ...state,
         ...action.payload,
         loading: false,
-        isAuth: true
+        isAuth: true,
       };
     case REGISTER_FAIL:
       return {
@@ -73,13 +73,13 @@ export default (state, action) => {
         loading: false,
         user: null,
         isAuth: false,
-        error: action.payload
+        error: action.payload,
       };
 
     case REGISTER_FAIL:
       return {
         ...state,
-        error: null
+        error: null,
       };
 
     case GET_ALLSTUDENTS:
@@ -87,7 +87,7 @@ export default (state, action) => {
         ...state,
         ...action.payload,
 
-        students: action.payload.students
+        students: action.payload.students,
       };
 
     case GET_STUDENT:
@@ -95,7 +95,7 @@ export default (state, action) => {
         ...state,
         ...action.payload,
 
-        student: action.payload.student
+        student: action.payload.student,
       };
 
     default:

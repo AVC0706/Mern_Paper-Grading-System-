@@ -8,12 +8,12 @@ import {
   Card,
   CardBody,
   CardImg,
-  Spinner
+  Spinner,
 } from "reactstrap";
 import src1 from "../assets/login.svg";
 import AuthContext from "../context/auth/authContext";
 
-const LoginPage = props => {
+const LoginPage = (props) => {
   //start
 
   const authContext = useContext(AuthContext);
@@ -21,7 +21,7 @@ const LoginPage = props => {
   const { isAuth, error, login, isAdmin } = authContext;
   const [user, setuser] = useState({
     rollNo: "",
-    password: ""
+    password: "",
   });
 
   const [loading, setLoading] = useState(false);
@@ -37,6 +37,7 @@ const LoginPage = props => {
         props.history.push("/dashboard");
       } else {
         console.log("non");
+
         alert("LOGGED IN");
         setLoading(false);
         props.history.push("/profile");
@@ -52,14 +53,14 @@ const LoginPage = props => {
     // eslint-disable-next-line
   }, [error, isAuth, props.history, isAdmin]);
 
-  const onChange = e => {
+  const onChange = (e) => {
     setuser({
       ...user,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
-  const onSubmit = e => {
+  const onSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
 
@@ -68,7 +69,7 @@ const LoginPage = props => {
     } else {
       login({
         rollNo,
-        password
+        password,
       });
     }
   };

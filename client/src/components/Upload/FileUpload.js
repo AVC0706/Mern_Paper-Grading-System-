@@ -3,19 +3,19 @@ import Message from "./Message";
 import Progress from "./Progress";
 import axios from "axios";
 
-const FileUpload = props => {
+const FileUpload = (props) => {
   const [file, setFile] = useState("");
   const [filename, setFilename] = useState("Choose File");
   const [uploadedFile, setUploadedFile] = useState({});
   const [message, setMessage] = useState("");
   const [uploadPercentage, setUploadPercentage] = useState(0);
 
-  const onChange = e => {
+  const onChange = (e) => {
     setFile(e.target.files[0]);
     setFilename(e.target.files[0].name);
   };
 
-  const onSubmit = async e => {
+  const onSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();
     formData.append("file", file);
@@ -25,9 +25,9 @@ const FileUpload = props => {
     try {
       const res = await axios.post("/api/paper/upload", formData, {
         headers: {
-          "Content-Type": "multipart/form-data"
+          "Content-Type": "multipart/form-data",
         },
-        onUploadProgress: progressEvent => {
+        onUploadProgress: (progressEvent) => {
           setUploadPercentage(
             parseInt(
               Math.round((progressEvent.loaded * 100) / progressEvent.total)
@@ -36,7 +36,7 @@ const FileUpload = props => {
 
           // Clear percentage
           setTimeout(() => setUploadPercentage(0), 10000);
-        }
+        },
       });
 
       const { fileName, filePath } = res.data;
@@ -55,6 +55,10 @@ const FileUpload = props => {
 
   return (
     <Fragment>
+      <br />
+      <br />
+      <h1>UPLOAD STUDENT DATA</h1>
+      <br />
       {message ? <Message msg={message} /> : null}
       <form onSubmit={onSubmit}>
         <div className='custom-file mb-4'>

@@ -18,38 +18,38 @@ const PdfAnswer = () => {
 
   const [uploadPercentage, setUploadPercentage] = useState(0);
 
-  const onChange = e => {
+  const onChange = (e) => {
     console.log(e.target.files);
 
     setFile(e.target.files);
     setFilename(e.target.files[0].name);
   };
 
-  const onSubjectChange = e => {
+  const onSubjectChange = (e) => {
     setSubject(e.target.value);
     console.log(subject);
   };
 
-  const addFiles = e => {
+  const addFiles = (e) => {
     e.preventDefault();
     setLoading(true);
     setSubject(e.target.value);
     console.log(subject);
-
+    const date = Date.now().toString();
     for (let i = 0; i < files.length; i++) {
       const type = files[i].name.split(".")[1];
       if (type === "pdf") {
         const uploadTask = storage.ref(`${files[i].name}`).put(files[i]);
         uploadTask.on(
           "state_changed",
-          snapshot => {
+          (snapshot) => {
             // progress function ...
             const progress = Math.round(
               (snapshot.bytesTransferred / snapshot.totalBytes) * 100
             );
             // this.setUploadPercentage(progress);
           },
-          error => {
+          (error) => {
             // Error function ...
             console.log(error);
           },
@@ -59,10 +59,10 @@ const PdfAnswer = () => {
               .ref()
               .child(files[i].name)
               .getDownloadURL()
-              .then(url => {
-                setRecent(recentFile => [
+              .then((url) => {
+                setRecent((recentFile) => [
                   ...recentFile,
-                  { url, filename: files[i].name }
+                  { url, filename: files[i].name },
                 ]);
               });
           }
@@ -71,10 +71,10 @@ const PdfAnswer = () => {
     }
     setTimeout(() => {
       setLoading(false);
-    }, 2000);
+    }, 10000);
   };
 
-  const onSubmit = async e => {
+  const onSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setSubject(e.target.value);
@@ -82,6 +82,7 @@ const PdfAnswer = () => {
     for (let i = 0; i < files.length; i++) {
       const type = files[i].name.split(".")[1];
       if (type === "pdf") {
+        console.log(recentFile[i].filename, recentFile[i].url, subject);
         const formData = new FormData();
         formData.append("filename", recentFile[i].filename);
         formData.append("downloadUrl", recentFile[i].url);
@@ -92,9 +93,9 @@ const PdfAnswer = () => {
           if (recentFile) {
             const res = await axios.post("/api/paper/uploadPdf", formData, {
               headers: {
-                "Content-Type": "multipart/form-data"
+                "Content-Type": "multipart/form-data",
               },
-              onUploadProgress: progressEvent => {
+              onUploadProgress: (progressEvent) => {
                 setUploadPercentage(
                   parseInt(
                     Math.round(
@@ -105,7 +106,7 @@ const PdfAnswer = () => {
 
                 // Clear percentage
                 setTimeout(() => setUploadPercentage(0), 10000);
-              }
+              },
             });
 
             const { fileName, filePath } = res.data;
@@ -124,13 +125,13 @@ const PdfAnswer = () => {
       }
     }
     setTimeout(() => {
-      setRecent(recentFile => []);
+      setRecent((recentFile) => []);
 
       setLoading(false);
     }, 5000);
   };
 
-  const onCheck = e => {
+  const onCheck = (e) => {
     e.preventDefault();
 
     console.log(recentFile);

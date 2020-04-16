@@ -15,11 +15,11 @@ import {
   CONTACT_ERROR,
   GET_STUDENT,
   GET_ALLSTUDENTS,
-  STUDENT_ERROR
+  STUDENT_ERROR,
 } from "../types";
 import setAuthToken from "../../utils/setAuthToken";
 
-const AuthState = props => {
+const AuthState = (props) => {
   const initialState = {
     token: localStorage.getItem("token"),
     user: null,
@@ -28,7 +28,7 @@ const AuthState = props => {
     error: null,
     isAdmin: false,
     students: null,
-    student: null
+    student: null,
   };
 
   const [state, dispatch] = useReducer(AuthReducer, initialState);
@@ -45,22 +45,23 @@ const AuthState = props => {
 
       dispatch({
         type: USER_LOADED,
-        payload: res.data
+        payload: res.data,
       });
+      console.log(state.isAdmin);
     } catch (e) {
       dispatch({
         type: AUTH_ERROR,
-        payload: e.response.data.msg
+        payload: e.response.data.msg,
       });
     }
   };
 
   //Register
-  const register = async formData => {
+  const register = async (formData) => {
     const config = {
       header: {
-        "Content-Type": "application/json"
-      }
+        "Content-Type": "application/json",
+      },
     };
 
     try {
@@ -68,22 +69,22 @@ const AuthState = props => {
 
       dispatch({
         type: REGISTER_SUCCESS,
-        payload: res.data
+        payload: res.data,
       });
     } catch (e) {
       dispatch({
         type: REGISTER_FAIL,
-        payload: e.response.data.msg
+        payload: e.response.data.msg,
       });
     }
   };
 
   //Login
-  const login = async formData => {
+  const login = async (formData) => {
     const config = {
       header: {
-        "Content-Type": "application/json"
-      }
+        "Content-Type": "application/json",
+      },
     };
 
     try {
@@ -92,7 +93,7 @@ const AuthState = props => {
 
       dispatch({
         type: LOGIN_SUCCESS,
-        payload: res.data
+        payload: res.data,
       });
       console.log(res.data.user, state.isAdmin);
 
@@ -100,7 +101,7 @@ const AuthState = props => {
     } catch (e) {
       dispatch({
         type: LOGIN_FAIL,
-        payload: e.response.data.msg
+        payload: e.response.data.msg,
       });
     }
   };
@@ -111,33 +112,32 @@ const AuthState = props => {
   //Clear Error
   const clearError = () => {
     dispatch({
-      type: CONTACT_ERROR
+      type: CONTACT_ERROR,
     });
   };
 
   const getAllStudents = async () => {
     try {
       const res = await axios.get("/api/paper/allStudents");
-      console.log(res.data.students);
 
       dispatch({
         type: GET_ALLSTUDENTS,
-        payload: res.data
+        payload: res.data,
       });
-      console.log(res.data);
+      console.log(res.data.students);
     } catch (e) {
       dispatch({
         type: STUDENT_ERROR,
-        payload: e.response.data.msg
+        payload: e.response.data.msg,
       });
     }
   };
 
-  const getStudent = async id => {
+  const getStudent = async (id) => {
     const config = {
       header: {
-        "Content-Type": "application/json"
-      }
+        "Content-Type": "application/json",
+      },
     };
 
     try {
@@ -146,13 +146,13 @@ const AuthState = props => {
 
       dispatch({
         type: GET_STUDENT,
-        payload: res.data
+        payload: res.data,
       });
       console.log(res.data);
     } catch (e) {
       dispatch({
         type: STUDENT_ERROR,
-        payload: e.response.data.msg
+        payload: e.response.data.msg,
       });
     }
   };
@@ -174,7 +174,7 @@ const AuthState = props => {
         logout,
         clearError,
         getAllStudents,
-        getStudent
+        getStudent,
       }}
     >
       {props.children}

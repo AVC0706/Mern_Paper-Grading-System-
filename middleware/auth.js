@@ -12,7 +12,6 @@ const isAdmin = async (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, config.get("jwtSecret"));
-    console.log(decoded);
     const user = await User.findById(decoded.user.id);
 
     if (!user) {
